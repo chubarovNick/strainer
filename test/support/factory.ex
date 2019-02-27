@@ -1,0 +1,19 @@
+defmodule Strainer.Factory do
+  use ExMachina.Ecto, repo: Strainer.Repo
+
+  alias Strainer.{Post, Tag}
+
+  @spec post_factory() :: Strainer.Post.t()
+  def post_factory do
+    %Post{
+      title: sequence(:title, &"Post Title #{&1}")
+    }
+  end
+
+  @spec tag_factory() :: Strainer.Tag.t()
+  def tag_factory do
+    %Tag{
+      title: sequence(:title, &"Tag Title #{&1}")
+    }
+  end
+end
