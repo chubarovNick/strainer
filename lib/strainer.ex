@@ -6,6 +6,11 @@ defmodule Strainer do
     quote do
       use Strainer.DSL
 
+      Module.register_attribute(__MODULE__, :schema, accumulate: false)
+      Module.put_attribute(__MODULE__, :schema, unquote(schema))
+
+      def schema, do: unquote(schema)
+
       def filtered(query, filters) do
         filters
         |> Enum.reduce(query, &apply_filter/2)

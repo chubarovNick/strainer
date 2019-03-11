@@ -45,10 +45,13 @@ defmodule Strainer.DSL do
       Module.put_attribute(__MODULE__, :key, unquote(key))
 
       extend_query(fn query ->
+        schema = __MODULE__.schema()
+        primary_keys = schema.__schema__(:primary_key)
+
         from(
           p in query,
           left_join: tags in assoc(p, ^unquote(assoc)),
-          group_by: p.id
+          group_by: ^primary_keys
         )
       end)
 
