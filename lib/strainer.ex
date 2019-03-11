@@ -20,7 +20,10 @@ defmodule Strainer do
             filter_schema_field(key, query, %{eq: value})
 
           true ->
-            apply(__MODULE__, :filter, [key, query, %{eq: value}])
+            extended_query = apply(__MODULE__, :query_extend, [key, query])
+
+            extended_query
+            |> where(^apply(__MODULE__, :get_condition, [key, %{eq: value}]))
         end
       end
 

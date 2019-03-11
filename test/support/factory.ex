@@ -13,7 +13,8 @@ defmodule Strainer.Factory do
   @spec tag_factory() :: Strainer.Tag.t()
   def tag_factory do
     %Tag{
-      title: sequence(:title, &"Tag Title #{&1}")
+      title: sequence(:title, &"Tag Title #{&1}"),
+      popularity: sequence(:popularity, & &1)
     }
   end
 end

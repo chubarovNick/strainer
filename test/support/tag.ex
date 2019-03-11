@@ -4,6 +4,7 @@ defmodule Strainer.Tag do
 
   schema "tags" do
     field(:title)
+    field(:popularity, :integer)
     many_to_many(:posts, Strainer.Post, join_through: "posts_tags")
   end
 end
