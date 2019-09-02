@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/chubarovNick/strainer.svg?branch=master)](https://travis-ci.org/chubarovNick/strainer)
 
+[![codecov](https://codecov.io/gh/chubarovNick/strainer/branch/master/graph/badge.svg)](https://codecov.io/gh/chubarovNick/strainer)
+
 **TODO: Add description**
 
 ## Installation
