@@ -13,7 +13,24 @@ defmodule Strainer do
       def schema, do: unquote(schema)
 
       def filtered(query, filters) do
-        Default.apply_filters(__MODULE__, query, filters)
+        __MODULE__
+        |> Default.apply_filters(query, filters)
+        |> group_by_primary_keys()
+      end
+
+      def filtered(query, filters, adapter) do
+        adapter
+        |> apply(:apply_filters, [__MODULE__, query, filters])
+        |> group_by_primary_keys()
+      end
+
+      defp group_by_primary_keys(filtered) do
+        schema = __MODULE__.schema()
+        primary_keys = schema.__schema__(:primary_key)
+
+        from(q in filtered,
+          group_by: ^primary_keys
+        )
       end
     end
   end

@@ -1,4 +1,9 @@
 defmodule Strainer.DSL do
+  @moduledoc """
+  Provide dsl for filters module
+  """
+  import Strainer.Conditions
+
   defmacro __using__(_) do
     quote do
       import Ecto.Query
@@ -31,6 +36,18 @@ defmodule Strainer.DSL do
     end
   end
 
+  defmacro filter_by(keys) when is_list(keys) do
+    quote bind_quoted: [keys: Macro.escape(keys)] do
+      def unquote(:query_extend)(key, query) when key in unquote(keys) do
+        query
+      end
+
+      def unquote(:get_condition)(key, condition) when key in unquote(keys) do
+        self_condition(key, condition)
+      end
+    end
+  end
+
   defmacro filter_by(key, do: block) do
     quote do
       Module.register_attribute(__MODULE__, :key, accumulate: true)
@@ -45,13 +62,9 @@ defmodule Strainer.DSL do
       Module.put_attribute(__MODULE__, :key, unquote(key))
 
       extend_query(fn query ->
-        schema = __MODULE__.schema()
-        primary_keys = schema.__schema__(:primary_key)
-
         from(
           p in query,
-          left_join: tags in assoc(p, ^unquote(assoc)),
-          group_by: ^primary_keys
+          left_join: tags in assoc(p, ^unquote(assoc))
         )
       end)
 

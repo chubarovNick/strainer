@@ -1,4 +1,7 @@
 defmodule Strainer.Adapters.Default do
+  @moduledoc """
+  Default adapter of arguments to query
+  """
   import Ecto.Query
   import Strainer.Conditions
 
@@ -14,20 +17,18 @@ defmodule Strainer.Adapters.Default do
     schema_module = filter_module.schema()
     module_fields = schema_module.__schema__(:fields)
 
-    cond do
-      key in module_fields ->
-        filter_schema_field(key, query, %{eq: value})
+    if key in module_fields do
+      filter_schema_field(key, query, value)
+    else
+      extended_query = apply(filter_module, :query_extend, [key, query])
 
-      true ->
-        extended_query = apply(filter_module, :query_extend, [key, query])
-
-        extended_query
-        |> where(^apply(filter_module, :get_condition, [key, %{eq: value}]))
+      extended_query
+      |> where(^apply(filter_module, :get_condition, [key, %{eq: value}]))
     end
   end
 
   defp filter_schema_field(key, query, condition) do
     query
-    |> where(^condition(key, condition))
+    |> where([q], ^self_condition(key, %{eq: condition}))
   end
 end

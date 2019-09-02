@@ -1,4 +1,5 @@
 defmodule Strainer.Factory do
+  @moduledoc false
   use ExMachina.Ecto, repo: Strainer.Repo
 
   alias Strainer.{Post, Tag}

@@ -59,6 +59,7 @@ defmodule Strainer.MixProject do
     [
       {:ex_doc, "~> 0.19", only: [:dev, :docs]},
       {:credo, "~> 0.10.2", only: [:dev, :test]},
+      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:postgrex, ">= 0.0.0", only: :test},
       {:ex_machina, "~> 2.2", only: [:dev, :test]},
