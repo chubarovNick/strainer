@@ -195,7 +195,7 @@ defmodule StrainerTest do
         |> Repo.all()
 
       assert length(result) == 1
-      [%{id: id }] = result
+      [%{id: id}] = result
       assert id == post.id
     end
 

@@ -13,4 +13,6 @@ script:
   - mix compile
   - mix ecto.setup
   - mix credo
-  - mix coveralls.travis
+  - mix coveralls.json
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
