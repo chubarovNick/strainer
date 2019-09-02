@@ -1,5 +1,7 @@
 # Strainer
 
+[![Build Status](https://travis-ci.org/chubarovNick/strainer.svg?branch=master)](https://travis-ci.org/chubarovNick/strainer)
+
 **TODO: Add description**
 
 ## Installation
